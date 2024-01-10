@@ -52,6 +52,8 @@ table {
 }
 body{
   font-family: 'Bungee Spice', sans-serif;
+  width: 100vw;
+  height: 100vh;
 }
 a{
   text-decoration: none;

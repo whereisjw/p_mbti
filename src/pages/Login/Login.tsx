@@ -1,50 +1,67 @@
 import styled from '@emotion/styled';
+import axios from 'axios';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import useSWR from 'swr';
+import fetcher from '../../utils/fetcher';
 
 const Wrapper = styled.div`
-  height: 100vh;
+  height: 100%;
+  width: 100%;
+
   display: flex;
   align-items: center;
   justify-content: center;
 `;
 
-const Center = styled.div``;
+const Center = styled.div`
+  height: 100%;
+  width: 100%;
+`;
 
 const Header = styled.header`
   text-align: center;
-
   font-weight: 700;
-  font-size: 48px;
+  font-size: 33px;
   line-height: 46px;
   letter-spacing: -0.75px;
   margin-top: 50px;
   margin-bottom: 50px;
+  @media screen and (min-width: 768px) {
+    font-size: 48px;
+  }
 `;
 
 const Form = styled.form`
   margin: 0 auto;
-  width: 400px;
-  max-width: 400px;
+  padding: 20px;
+  @media screen and (min-width: 1024px) {
+    width: 400px;
+    max-width: 400px;
+    padding: 0;
+  }
 `;
 
-const Label = styled.label`
+const Label = styled.div`
   margin-bottom: 16px;
-
+  width: 100%;
   & > span {
     display: block;
     text-align: left;
-    padding-bottom: 8px;
+    padding-bottom: 0px;
     font-size: 15px;
     cursor: pointer;
     line-height: 1.46666667;
     font-weight: 700;
+    @media screen and (min-width: 768px) {
+      padding-bottom: 8px;
+    }
   }
 `;
 
 const Input = styled.input`
   border-radius: 4px;
-  border: 1px solid red;
+  height: 100%;
   transition:
     border 80ms ease-out,
     box-shadow 80ms ease-out;
@@ -52,12 +69,15 @@ const Input = styled.input`
   margin: 0 0 20px;
   width: 100%;
   padding: 12px;
-  height: 44px;
+  height: 30px;
   padding-top: 11px;
   padding-bottom: 13px;
   font-size: 18px;
   line-height: 1.33333333;
   outline: none;
+  @media screen and (min-width: 768px) {
+    height: 44px;
+  }
 `;
 
 const Button = styled.button`
@@ -113,15 +133,19 @@ const LinkContainer = styled.p`
     }
   }
 `;
-interface Idata {
-  email: string;
-  password: string;
-}
-const onValid = (data: Idata) => {
-  console.log(data);
-};
 
 const Login = () => {
+  const { data, error } = useSWR('http://localhost:3095/api/users', fetcher);
+  interface Idata {
+    email: string;
+    password: string;
+  }
+  const onValid = (data: Idata) => {
+    axios
+      .post('http://localhost:3095/api/users/login', data, { withCredentials: true })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
   const { register, handleSubmit, watch } = useForm<Idata>();
   return (
     <Wrapper>

@@ -1,4 +1,4 @@
-# slack
+# 채팅방
 
 - npm i react react-dom
 - npm i -D eslint
@@ -22,3 +22,7 @@ const Signup = loadable(() => import('./pages/Signup'));
 # 로그인페이지
 
 - useform 이용해서 유효성검사
+- npm i axios
+- api.md 로 rest api 참조
+- npm i swr 
+- swr 로 쿠키 공유
